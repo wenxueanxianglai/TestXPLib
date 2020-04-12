@@ -44,5 +44,11 @@
     <ClInclude Include="SeqList.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="StaticList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

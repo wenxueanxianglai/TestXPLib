@@ -23,7 +23,7 @@ public:
 	T  operator[](int i) const;
 
 public:
-	virtual int capacity() = 0;
+	virtual int capacity() const = 0;
 
 protected:
 	T* m_array;		//Ë³Ðò´æ´¢¿Õ¼ä
@@ -39,7 +39,7 @@ bool SeqList<T>::insert(int i, const T& e)
 
 	if (bRet)
 	{
-		for (int p = m_length - 1; p >= i; p--)
+		for (int p = m_length - 1; p >= i; p--)			// O(n)
 		{
 			m_array[p + 1] = m_array[p];
 		}
@@ -58,13 +58,15 @@ bool SeqList<T>::remove(int i)
 
 	if (bRet)
 	{
-		for (int p = i; p < m_length-1; p++)
+		for (int p = i; p < m_length-1; p++)				//O(n)
 		{
 			m_array[p] = m_array[p + 1];
 		}
 
 		m_length--;
 	}
+
+	return bRet;
 }
 
 template<typename T>

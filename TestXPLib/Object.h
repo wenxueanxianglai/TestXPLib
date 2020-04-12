@@ -7,7 +7,6 @@ class Object			// 规范 堆对象的行为
 {
 public:
 //	Object();
-
 	void* operator new(unsigned int size) throw();
 	void operator delete(void* p);
 
