@@ -40,6 +40,17 @@ int main()
 
 	//SeqList<int>* l;
 
+	DynamicList<int> l(5);
+	for (int i = 0; i < l.capacity(); i++)
+	{
+		l.insert(i);
+	}
+
+	for (int i = 0; i < l.capacity(); i++)
+	{
+		cout << l[i] << endl;
+	}
+	//DynamicList<int> n = l;
 
 	return 0;
 }

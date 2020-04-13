@@ -8,6 +8,11 @@ template<typename T>
 class List : public Object
 {
 public:
+	List() = default;
+	List(const List&) = delete;
+	List& operator= (const List& ) = delete;
+public:
+	virtual bool insert(const T& e) = 0;			//不知情况下，则插入尾部
 	virtual bool insert(int i, const T& e) = 0;
 	virtual bool remove(int i) = 0;
 	

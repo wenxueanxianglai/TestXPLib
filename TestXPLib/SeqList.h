@@ -9,6 +9,7 @@ template <typename T>
 class SeqList : List<T>
 {
 public:
+	virtual bool insert(const T& e);
 	virtual bool insert(int i, const T& e);
 	virtual bool remove(int i);
 
@@ -30,6 +31,12 @@ protected:
 	int m_length;	// 当前线性表长度
 };
 
+template<typename T>
+inline bool SeqList<T>::insert(const T & e)
+{
+	return insert(m_length, e);
+}
+
 template <typename T>
 bool SeqList<T>::insert(int i, const T& e)
 {
@@ -39,7 +46,7 @@ bool SeqList<T>::insert(int i, const T& e)
 
 	if (bRet)
 	{
-		for (int p = m_length - 1; p >= i; p--)			// O(n)
+		for (int p = m_length - 1; p >= i; p--)			// O(n)		最坏情况，插入在头部
 		{
 			m_array[p + 1] = m_array[p];
 		}
