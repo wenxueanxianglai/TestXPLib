@@ -7,6 +7,7 @@
 #include "StaticList.h"
 #include "DynamicList.h"
 #include "StaticArray.h"
+#include "DynamicArray.h"
 
 using namespace XPLib;
 using namespace std;
@@ -42,7 +43,33 @@ int main()
 	//SeqList<int>* l;
 
 	//DynamicList<int> n = l;
+	DynamicArray<int> sl(5);
 
+	for (int i = 0; i < sl.length(); ++i)
+	{
+		sl[i] = i * i;
+	}
+	
+	for (int i = 0; i < sl.length(); ++i)
+	{
+		cout << sl[i] << endl;
+	}
+
+	DynamicArray<int> s2(10);
+	s2 = sl;
+	s2.resize(8);
+	s2.resize(3);
+	for (int i = 0; i < s2.length(); ++i)
+	{
+		cout << s2[i] << endl;
+	}
+
+	s2[4] = 11;
+	return 0;
+}
+
+void testArray()
+{
 	StaticArray<int, 5> sl;
 
 	for (int i = 0; i < sl.length(); ++i)
@@ -63,12 +90,6 @@ int main()
 	}
 
 	s2[6] = 222;
-
-	return 0;
-}
-
-void testArray()
-{
 
 }
 
