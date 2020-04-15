@@ -129,6 +129,7 @@
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="DynamicList.h" />
     <ClInclude Include="Exception.h" />
+    <ClInclude Include="LinkList.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="SeqList.h" />
