@@ -8,6 +8,7 @@
 #include "DynamicList.h"
 #include "StaticArray.h"
 #include "DynamicArray.h"
+#include "LinkList.h"
 
 using namespace XPLib;
 using namespace std;
@@ -34,22 +35,41 @@ void testPointer();
 int main()
 {
 
-	//testPointer();
+	LinkList<int> list;
 
-	//Object* obj1 = new Test();
+	for (int i = 0; i < 5; ++i)
+	{
+		list.insert(i);
+		list.set(i, i*i);
+	}
 
-	//delete obj1;
+	for (int i = 0; i < list.length(); ++i)
+	{
+		//int v = 0;
+		//list.get(i, v);
+		
+		cout << list.get(i) << endl;
+	}
 
-	//SeqList<int>* l;
+	list.remove(2);
 
-	//DynamicList<int> n = l;
+	for (int i = 0; i < list.length(); ++i)
+	{
+		cout << list.get(i) << endl;
+	}
+	
+	return 0;
+}
+
+void testDynamicArray()
+{
 	DynamicArray<int> sl(5);
 
 	for (int i = 0; i < sl.length(); ++i)
 	{
 		sl[i] = i * i;
 	}
-	
+
 	for (int i = 0; i < sl.length(); ++i)
 	{
 		cout << sl[i] << endl;
@@ -65,7 +85,6 @@ int main()
 	}
 
 	s2[4] = 11;
-	return 0;
 }
 
 void testArray()

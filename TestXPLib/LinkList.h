@@ -7,8 +7,15 @@ BEGIN_NAMESPACE
 template <typename T>
 class LinkList : public List<T>
 {
+protected:
+	struct Node : public Object
+	{
+		T value;
+		Node* next{ nullptr };
+	};
+
 public:
-	LinkList() : m_header.next(nullptr), m_length(0){}
+	LinkList(){}
 	~LinkList() { clear(); }
 public:
 	virtual bool insert(const T& e);			//不知情况下，则插入尾部
@@ -17,19 +24,30 @@ public:
 
 	virtual bool set(int i, const T& e);
 	virtual bool get(int i, T& e) const;
+	T get(int i) const;
 
 	virtual int length() const { return m_length; }
 
 	virtual void clear();
-protected:
-	struct Node : public Object 
-	{
-		T value;
-		Node* next;
-	};
 
-	Node m_header;
-	int m_length;
+protected:
+	Node* position(int i) const
+	{
+		Node* ret = reinterpret_cast<Node*>(&m_header);
+		for (int p = 0; p < i; ++p)
+		{
+			ret = ret->next;
+		}
+
+		return ret;
+	}
+
+	mutable struct : public Object {
+		char reserved[sizeof(T)];
+		Node* next{ nullptr };
+	} m_header;
+
+	int m_length{0};
 };
 
 template<typename T>
@@ -48,12 +66,7 @@ inline bool LinkList<T>::insert(int i, const T & e)
 		Node* node = new Node();
 		if (nullptr != node)
 		{
-			Node* current = &m_header;
-
-			for (int pos = 0; pos< i; ++pos)
-			{
-				current = current->next;
-			}
+			Node* current = position(i);
 
 			node->value = e;
 			node->next = current->next;
@@ -63,14 +76,9 @@ inline bool LinkList<T>::insert(int i, const T & e)
 		}
 		else
 		{
-			THROW_EXCEPTION(NoEnoughMemoryException, "No memory to insert element...");
+			THROW_EXCEPTION(NoEnoughMemoryException, "No memory to insert new element...");
 		}
 	}
-	//else
-	//{
-
-	//}
-
 
 	return bRet;
 }
@@ -81,12 +89,7 @@ inline bool LinkList<T>::remove(int i)
 	bool bRet = ((0 <= i) && (i <= m_length));
 	if (bRet)
 	{
-		Node* current = &m_header;
-
-		for (int pos = 0; pos < i; ++pos)
-		{
-			current = current->next;
-		}
+		Node* current = position(i);
 
 		Node* ptoDel = current->next;
 		current->next = ptoDel->next;
@@ -105,12 +108,7 @@ inline bool LinkList<T>::set(int i, const T & e)
 	bool bRet = ((0 <= i) && (i <= m_length));
 	if (bRet)
 	{
-		Node* current = &m_header;
-
-		for (int pos = 0; pos < i; ++pos)
-		{
-			current = current->next;
-		}
+		Node* current = position(i);
 
 		current->next->value = e;
 
@@ -125,18 +123,28 @@ inline bool LinkList<T>::get(int i, T & e) const
 	bool bRet = ((0 <= i) && (i <= m_length));
 	if (bRet)
 	{
-		Node* current = &m_header;
-
-		for (int pos = 0; pos < i; ++pos)
-		{
-			current = current->next;
-		}
+		Node* current = position(i);
 
 		e = current->next->value;
 
 	}
 
 	return bRet;
+}
+
+template<typename T>
+inline T LinkList<T>::get(int i) const
+{
+	T ret; 
+	if (get(i, ret))
+	{
+		return ret;
+	}
+	else
+	{
+		THROW_EXCEPTION(IndexOutOfBoundsException, "Invalid parameter i to get element...");
+	}
+	return ret;
 }
 
 template<typename T>
