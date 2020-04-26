@@ -33,6 +33,17 @@ public:
 
 	virtual void clear();
 
+
+
+public:
+	bool move(int nPos, int step = 1);
+	bool end();
+	T current();
+	bool next();
+
+	Node* m_current;
+	int m_step;
+
 protected:
 	Node* position(int i) const
 	{
@@ -187,6 +198,51 @@ inline void LinkList<T>::clear()
 	}
 
 	m_length = 0;
+}
+
+template<typename T>
+inline bool LinkList<T>::move(int nPos, int step)
+{
+	bool ret = (nPos >=0 ) && (nPos < m_length) && (step>0);
+	if (ret)
+	{
+		m_current = position(nPos)->next;
+		m_step = step;
+	}
+
+	return ret;
+}
+
+template<typename T>
+inline bool LinkList<T>::end()
+{
+	return (m_current == nullptr);
+}
+
+template<typename T>
+inline T LinkList<T>::current()
+{
+	if (!end())
+	{
+		return m_current->value;
+	}
+	else
+	{
+		THROW_EXCEPTION(InvalidOperationException, "No valude at current position");
+	}
+}
+
+template<typename T>
+inline bool LinkList<T>::next()
+{
+	int i = 0;
+	while((i < m_step) && (!end()))
+	{
+		m_current = m_current->next;
+		++i;
+	}
+
+	return (i == m_step);
 }
 
 

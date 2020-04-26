@@ -44,14 +44,30 @@ int main()
 	for (int i = 0; i < 5; ++i)
 	{
 		list.insert(i);
+	}
+
+	for (list.move(0, 2); !list.end(); list.next())
+	{
+		cout << list.current() << endl;
+	}
+	
+	return 0;
+}
+
+void testfind()
+{
+	LinkList<int> list;
+	for (int i = 0; i < 5; ++i)
+	{
+		list.insert(i);
 
 	}
 
 	cout << list.find(3) << endl;
 	cout << list.find(8) << endl;
-	
-	return 0;
 }
+
+
 
 void testLinkList()
 {
