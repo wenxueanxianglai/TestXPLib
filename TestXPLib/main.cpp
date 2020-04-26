@@ -9,6 +9,7 @@
 #include "StaticArray.h"
 #include "DynamicArray.h"
 #include "LinkList.h"
+#include "StaticLinkList.h"
 
 using namespace XPLib;
 using namespace std;
@@ -39,7 +40,7 @@ void testPointer();
 int main()
 {
 
-	LinkList<int> list;
+	StaticLinkList<int, 3> list;
 
 	for (int i = 0; i < 5; ++i)
 	{

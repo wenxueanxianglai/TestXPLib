@@ -41,9 +41,17 @@ public:
 	T current();
 	bool next();
 
-	Node* m_current;
-	int m_step;
 
+public:
+	virtual Node* create()
+	{
+		return new Node();
+	}
+
+	virtual void destroy(Node* pn)
+	{
+		delete pn;
+	}
 protected:
 	Node* position(int i) const
 	{
@@ -62,6 +70,11 @@ protected:
 	} m_header;
 
 	int m_length{0};
+
+
+	Node* m_current;
+	int m_step;
+
 };
 
 template<typename T>
