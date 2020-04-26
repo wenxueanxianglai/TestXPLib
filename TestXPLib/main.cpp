@@ -23,6 +23,10 @@ public:
 		cout << "Test::~Test()" << endl;
 	}
 
+	bool operator == (const Test& t) {
+		return i == t.i;
+	}
+
 	int j;
 	int i;
 
@@ -40,6 +44,24 @@ int main()
 	for (int i = 0; i < 5; ++i)
 	{
 		list.insert(i);
+
+	}
+
+	cout << list.find(3) << endl;
+	cout << list.find(8) << endl;
+	
+	return 0;
+}
+
+void testLinkList()
+{
+
+	
+	LinkList<int> list;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		list.insert(i);
 		list.set(i, i*i);
 	}
 
@@ -47,7 +69,7 @@ int main()
 	{
 		//int v = 0;
 		//list.get(i, v);
-		
+
 		cout << list.get(i) << endl;
 	}
 
@@ -57,9 +79,9 @@ int main()
 	{
 		cout << list.get(i) << endl;
 	}
-	
-	return 0;
+
 }
+
 
 void testDynamicArray()
 {

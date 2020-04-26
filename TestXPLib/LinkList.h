@@ -26,6 +26,9 @@ public:
 	virtual bool get(int i, T& e) const;
 	T get(int i) const;
 
+	virtual int find(const T& e) const;
+
+
 	virtual int length() const { return m_length; }
 
 	virtual void clear();
@@ -145,6 +148,31 @@ inline T LinkList<T>::get(int i) const
 		THROW_EXCEPTION(IndexOutOfBoundsException, "Invalid parameter i to get element...");
 	}
 	return ret;
+}
+
+template<typename T>
+inline int LinkList<T>::find(const T & e) const
+{
+	int nRet = -1;
+	int i = 0;
+
+	Node* node = m_header.next;
+
+	while (node)
+	{
+		if (node->value == e)
+		{
+			nRet = i;
+			break;
+		}
+		else
+		{
+			node = node->next;
+			++i;
+		}
+	}
+
+	return nRet;
 }
 
 template<typename T>

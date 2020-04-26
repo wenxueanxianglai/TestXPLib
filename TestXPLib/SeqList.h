@@ -16,6 +16,9 @@ public:
 	virtual bool set(int i, const T& e);
 	virtual bool get(int i, T& e) const;
 
+	virtual int find(const T& e) const;
+
+
 	virtual int length() const;
 
 	virtual void clear();
@@ -100,6 +103,23 @@ bool SeqList<T>::get(int i, T& e) const
 	}
 
 	return bRet;
+}
+
+template<typename T>
+inline int SeqList<T>::find(const T & e) const
+{
+	int nRet = -1;
+
+	for (int i = 0; i < m_length; ++i)				//O(n)
+	{
+		if (m_array[i] == e)
+		{
+			nRet = i;
+			break;
+		}
+	}
+
+	return nRet;
 }
 
 template <typename T>

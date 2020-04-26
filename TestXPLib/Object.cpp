@@ -29,8 +29,19 @@ void Object::operator delete[](void* p)
 	free(p);
 }
 
+bool Object::operator==(const Object & object)
+{
+	return (this == &object);
+}
+
+bool Object::operator!=(const Object & object)
+{
+	return (this != &object);
+}
+
 Object::~Object()
 {
+
 }
 
 END_NAMESPACE
