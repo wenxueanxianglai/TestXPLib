@@ -40,7 +40,7 @@ void testPointer();
 int main()
 {
 
-	StaticLinkList<int, 3> list;
+	StaticLinkList<int, 8> list;
 
 	for (int i = 0; i < 5; ++i)
 	{

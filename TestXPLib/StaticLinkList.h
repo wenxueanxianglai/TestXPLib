@@ -27,6 +27,10 @@ public:
 			i = 0;
 		}
 	}
+	~StaticLinkList()
+	{
+		this->clear();
+	}
 
 	int capacity()
 	{
@@ -47,7 +51,7 @@ public:
 				break;
 			}
 		}
-		return nullptr;
+		return ret;
 	}
 
 	virtual void destroy(Node* pn)
