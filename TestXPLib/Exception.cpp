@@ -63,7 +63,8 @@ Exception& Exception::operator=(const Exception& e)
 
 void Exception::init(const char* message, const char* file, int line)
 {
-	m_message = _strdup(message);
+	m_message = message ? _strdup(message) : nullptr;
+	//m_message =  _strdup(message);
 
 	if (nullptr != file)
 	{

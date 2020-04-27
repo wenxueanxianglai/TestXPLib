@@ -90,7 +90,7 @@ inline bool LinkList<T>::insert(int i, const T & e)
 
 	if (bRet)
 	{
-		Node* node = new Node();
+		Node* node = create(); //new Node();
 		if (nullptr != node)
 		{
 			Node* current = position(i);
@@ -117,13 +117,17 @@ inline bool LinkList<T>::remove(int i)
 	if (bRet)
 	{
 		Node* current = position(i);
-
 		Node* ptoDel = current->next;
-		current->next = ptoDel->next;
-		delete ptoDel;
 
+		if (m_current == ptoDel)
+		{
+			m_current = ptoDel->next;
+		}
+
+		current->next = ptoDel->next;
 		m_length--;
-		
+
+		destroy(ptoDel);		   	
 	}
 
 	return bRet;
@@ -206,11 +210,13 @@ inline void LinkList<T>::clear()
 	{
 		Node* toDel = m_header.next;
 		m_header.next = toDel->next;
+		--m_length;
 
-		delete toDel;
+		destroy(toDel);
+		//delete toDel;
 	}
 
-	m_length = 0;
+	//m_length = 0;
 }
 
 template<typename T>
