@@ -10,12 +10,14 @@
 #include "DynamicArray.h"
 #include "LinkList.h"
 #include "StaticLinkList.h"
+#include "SharedPointer.h"
 
 using namespace XPLib;
 using namespace std;
 
 class Test : public Object
 {
+	
 public:
 	Test() {
 		cout << "Test::Test()" << endl;
@@ -28,6 +30,8 @@ public:
 		return i == t.i;
 	}
 
+	int value{ 0 };
+
 	int j;
 	int i;
 
@@ -39,18 +43,31 @@ void testPointer();
 
 int main()
 {
+	SharedPointer<Test> sp = new Test();
+	
+	SharedPointer<Test> sp1 = sp;
+	SharedPointer<Test> sp2 = nullptr;
 
-	StaticLinkList<int, 8> list;
+	sp2 = sp;
 
-	for (int i = 0; i < 5; ++i)
-	{
-		list.insert(i);
-	}
+	sp2->value = 100;
+	cout << sp->value << endl;
+	cout << sp1->value << endl;
+	cout << sp2->value << endl;
 
-	for (list.move(0, 2); !list.end(); list.next())
-	{
-		cout << list.current() << endl;
-	}
+	cout << (sp == sp2) << endl;
+
+	//StaticLinkList<int, 8> list;
+
+	//for (int i = 0; i < 5; ++i)
+	//{
+	//	list.insert(i);
+	//}
+
+	//for (list.move(0, 2); !list.end(); list.next())
+	//{
+	//	cout << list.current() << endl;
+	//}
 	
 	return 0;
 }

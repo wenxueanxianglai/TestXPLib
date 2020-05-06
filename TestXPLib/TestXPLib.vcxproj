@@ -132,7 +132,9 @@
     <ClInclude Include="LinkList.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Pointer.h" />
     <ClInclude Include="SeqList.h" />
+    <ClInclude Include="SharedPointer.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="StaticArray.h" />
     <ClInclude Include="StaticLinkList.h" />

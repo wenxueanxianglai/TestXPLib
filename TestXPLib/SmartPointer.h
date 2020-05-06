@@ -2,19 +2,22 @@
 #include "common.h"
 
 #include "Object.h"
+#include "Pointer.h"
 
 
 BEGIN_NAMESPACE
 	template<typename T>
-	class CSmartPointer : public Object
+	class CSmartPointer : public Pointer<T>
 	{
 	public:
-		CSmartPointer(T* poniter = nullptr) : m_pointer(poniter) {}
+		CSmartPointer(T* poniter = nullptr) : Pointer<T>(poniter) {}
 
 
 
-		CSmartPointer(const CSmartPointer<T>& obj) : m_pointer(obj.m_pointer)
+		CSmartPointer(const CSmartPointer<T>& obj)
 		{
+			this->m_pointer = obj->m_pointer;
+
 			const_cast<CSmartPointer<T>&>(obj).m_pointer = nullptr;
 		}
 
@@ -22,8 +25,11 @@ BEGIN_NAMESPACE
 		{
 			if (*this != obj)
 			{
-				m_pointer = obj.m_pointer;
+				T* p = this->m_pointer;
+				this->m_pointer = obj.m_pointer;
 				const_cast<CSmartPointer<T>&>(obj).m_pointer = nullptr;
+
+				delete p;
 			}
 
 			return *this;
@@ -31,32 +37,11 @@ BEGIN_NAMESPACE
 
 		~CSmartPointer()
 		{
-			if (m_pointer)
+			if (this->m_pointer)
 			{
-				delete m_pointer;
+				delete this->m_pointer;
 			}
 		}
 
-		T* operator -> ()
-		{
-			return m_pointer;
-		}
-
-		T& operator* ()
-		{
-			return *m_pointer;
-		}
-
-		bool isNull() const
-		{
-			return (m_pointer == nullptr);
-		}
-
-		T* get() const
-		{
-			return m_pointer;
-		}
-	private:
-		T* m_pointer;
 	};
 END_NAMESPACE

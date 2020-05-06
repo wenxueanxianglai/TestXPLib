@@ -65,5 +65,11 @@
     <ClInclude Include="StaticLinkList.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Pointer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedPointer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
