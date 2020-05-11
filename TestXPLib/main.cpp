@@ -11,6 +11,7 @@
 #include "LinkList.h"
 #include "StaticLinkList.h"
 #include "SharedPointer.h"
+#include "CircleList.h"
 
 using namespace XPLib;
 using namespace std;
@@ -40,23 +41,33 @@ public:
 
 void testPointer();
 
+void josephus(int n, int s, int m)
+{
+	CircleList<int> lst;
+	for (int i = 1; i <= n; i++)
+	{
+		lst.insert(i);
+	}
+
+	lst.move(s - 1, m - 1);
+
+	while (lst.length() > 0)
+	{
+		lst.next();
+
+		cout << lst.current() << endl;
+
+		lst.remove(lst.find(lst.current()));
+
+	}
+}
+
 
 int main()
 {
-	SharedPointer<Test> sp = new Test();
+	josephus(41, 1, 3);
 	
-	SharedPointer<Test> sp1 = sp;
-	SharedPointer<Test> sp2 = nullptr;
-
-	sp2 = sp;
-
-	sp2->value = 100;
-	cout << sp->value << endl;
-	cout << sp1->value << endl;
-	cout << sp2->value << endl;
-
-	cout << (sp == sp2) << endl;
-
+	//lst.last();
 	//StaticLinkList<int, 8> list;
 
 	//for (int i = 0; i < 5; ++i)
@@ -70,6 +81,24 @@ int main()
 	//}
 	
 	return 0;
+}
+
+void testSharedPointer()
+{
+	SharedPointer<Test> sp = new Test();
+
+	SharedPointer<Test> sp1 = sp;
+	SharedPointer<Test> sp2 = nullptr;
+
+	sp2 = sp;
+
+	sp2->value = 100;
+	cout << sp->value << endl;
+	cout << sp1->value << endl;
+	cout << sp2->value << endl;
+
+	cout << (sp == sp2) << endl;
+
 }
 
 void testfind()

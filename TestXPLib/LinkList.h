@@ -7,7 +7,7 @@ BEGIN_NAMESPACE
 template <typename T>
 class LinkList : public List<T>
 {
-protected:
+public:
 	struct Node : public Object
 	{
 		T value;
@@ -24,7 +24,7 @@ public:
 
 	virtual bool set(int i, const T& e);
 	virtual bool get(int i, T& e) const;
-	T get(int i) const;
+	virtual T get(int i) const;
 
 	virtual int find(const T& e) const;
 
@@ -36,10 +36,10 @@ public:
 
 
 public:
-	bool move(int nPos, int step = 1);
-	bool end();
-	T current();
-	bool next();
+	virtual bool move(int nPos, int step = 1);
+	virtual bool end();
+	virtual T current();
+	virtual bool next();
 
 
 public:
@@ -162,6 +162,7 @@ inline bool LinkList<T>::get(int i, T & e) const
 
 	return bRet;
 }
+
 
 template<typename T>
 inline T LinkList<T>::get(int i) const
