@@ -12,6 +12,7 @@
 #include "StaticLinkList.h"
 #include "SharedPointer.h"
 #include "CircleList.h"
+#include "DualLinkList.h"
 
 using namespace XPLib;
 using namespace std;
@@ -65,7 +66,47 @@ void josephus(int n, int s, int m)
 
 int main()
 {
-	josephus(41, 1, 3);
+
+	DualLinkList<int> lst;
+	for (int i = 0; i < 5; ++i)
+	{
+		lst.insert(0, i);
+		lst.insert(0, 5);
+	}
+
+	for (int i = 0; i < lst.length(); ++i)
+	{
+		cout << lst.get(i) << endl;
+	}
+
+
+	for (lst.move(lst.length()-1); !lst.end(); lst.pre())
+	{
+		cout << lst.current() << endl;
+	}
+
+	cout << "begin--------" << endl;
+
+	lst.move(lst.length() - 1);
+	while (!lst.end())
+	{
+		if (lst.current() == 5)
+		{
+			cout << lst.current() << endl;
+			lst.remove(lst.find(lst.current()));
+		}
+		else
+		{
+			lst.pre();
+		}
+	}
+
+	cout << "end----------" << endl;
+	for (lst.move(lst.length() - 1); !lst.end(); lst.pre())
+	{
+		cout << lst.current() << endl;
+	}
+	//josephus(41, 1, 3);
 	
 	//lst.last();
 	//StaticLinkList<int, 8> list;
@@ -82,6 +123,9 @@ int main()
 	
 	return 0;
 }
+
+
+
 
 void testSharedPointer()
 {
