@@ -13,6 +13,8 @@
 #include "SharedPointer.h"
 #include "CircleList.h"
 #include "DualLinkList.h"
+#include "StaticStack.h"
+#include "LinkStack.h"
 
 using namespace XPLib;
 using namespace std;
@@ -42,6 +44,96 @@ public:
 
 void testPointer();
 
+bool isLeft(char ch) {
+	return ((ch == '<') || (ch == '(') || (ch == '[') || (ch == '{'));
+}
+
+bool isRight(char ch) {
+	return ((ch == '>') || (ch == ')') || (ch == ']') || (ch == '}'));
+}
+
+bool isQuot(char ch)
+{
+	return (ch == '\'') || (ch == '\"');
+}
+
+bool isMatch(char lch, char rch)
+{
+	return ((lch == '(') && (rch == ')'))
+		|| ((lch == '<') && (rch == '>'))
+		|| ((lch == '[') && (rch == ']'))
+		|| ((lch == '{') && (rch == '}'))
+		|| ((lch == '\'') && (rch == '\''))
+		|| ((lch == '\"') && (rch == '\"'));
+}
+
+bool scan(const char* code) {
+	LinkStack<char> stack;
+	int i = 0;
+	bool ret = true;
+
+	code = (code == nullptr) ? "" : code;
+
+	while (ret && code[i] != '\0')
+	{
+		if (isLeft(code[i]))
+		{
+			stack.push(code[i]);
+		}
+		if (isRight(code[i]))
+		{
+			if ((stack.size() > 0) && isMatch(stack.top(), code[i]))
+			{
+				stack.pop();
+			}
+			else
+			{
+				ret = false;
+			}
+		}
+		else if (isQuot(code[i]))
+		{
+			if ((stack.size() == 0) || !(isMatch(stack.top(), code[i])))
+			{
+				stack.push(code[i]);
+			}
+			else if (isMatch(stack.top(), code[i]))
+			{
+				stack.pop();
+			}
+		}
+
+		++i;
+	}
+
+	return ret && (stack.size() == 0);
+}
+
+
+int main()
+{
+	cout << scan("sadfasdg") << endl;
+	
+	return 0;
+}
+
+void testLinkStack()
+{
+	LinkStack<int> stack;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		stack.push(i);
+	}
+
+	while (stack.size() > 0)
+	{
+		cout << stack.top() << endl;
+		stack.pop();
+
+	}
+}
+
 void josephus(int n, int s, int m)
 {
 	CircleList<int> lst;
@@ -64,9 +156,8 @@ void josephus(int n, int s, int m)
 }
 
 
-int main()
+void testDualLinkList()
 {
-
 	DualLinkList<int> lst;
 	for (int i = 0; i < 5; ++i)
 	{
@@ -80,7 +171,7 @@ int main()
 	}
 
 
-	for (lst.move(lst.length()-1); !lst.end(); lst.pre())
+	for (lst.move(lst.length() - 1); !lst.end(); lst.pre())
 	{
 		cout << lst.current() << endl;
 	}
@@ -106,26 +197,7 @@ int main()
 	{
 		cout << lst.current() << endl;
 	}
-	//josephus(41, 1, 3);
-	
-	//lst.last();
-	//StaticLinkList<int, 8> list;
-
-	//for (int i = 0; i < 5; ++i)
-	//{
-	//	list.insert(i);
-	//}
-
-	//for (list.move(0, 2); !list.end(); list.next())
-	//{
-	//	cout << list.current() << endl;
-	//}
-	
-	return 0;
 }
-
-
-
 
 void testSharedPointer()
 {
