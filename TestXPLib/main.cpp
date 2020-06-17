@@ -15,6 +15,9 @@
 #include "DualLinkList.h"
 #include "StaticStack.h"
 #include "LinkStack.h"
+#include "StaticQueue.h"
+#include "LinkQueue.h"
+#include "XPString.h"
 
 using namespace XPLib;
 using namespace std;
@@ -109,12 +112,151 @@ bool scan(const char* code) {
 	return ret && (stack.size() == 0);
 }
 
+int* make_pmt(const char* p)
+{
+	int len = strlen(p);
+	int* ret = static_cast<int*>(malloc(sizeof(int)* len));
+
+	if (ret != nullptr)
+	{
+		int ll = 0;
+
+		ret[0] = 0;
+
+		for (int i = 1; i < len; ++i)
+		{
+			while( (p[ll] != p[i] ) && (ll > 0) )
+			{
+				ll = ret[ll - 1];
+			}
+
+			if (p[ll] == p[i])
+			{
+				ll++;
+			}
+
+			ret[i] = ll;
+		}
+	}
+
+	return ret;
+}
+
+int kmp(const char* s, const char* p)
+{
+	int ret = -1;
+	int sl = strlen(s);
+	int pl = strlen(p);
+	int* pmt = make_pmt(p);
+
+
+	if ((pmt != nullptr) && (0 < pl) && (pl <= sl))
+	{
+		for (int i=0, j = 0; i< sl; ++i)
+		{
+			while ((j > 0) && (s[i] != p[j]))
+			{
+				j = pmt[j - 1];
+			}
+
+			if (s[i] == p[j])
+			{
+				j++;
+			}
+
+			if (j == pl)
+			{
+				ret = i + 1 - pl;
+				break;
+			}
+		}
+
+	}
+
+	free(pmt);
+
+	return ret;
+}
 
 int main()
 {
-	cout << scan("sadfasdg") << endl;
+	int * pmt = make_pmt("ababax");
+
+	for (int i = 0; i < strlen("ababax"); ++i)
+	{
+		cout << i << " : " << pmt[i] << endl;
+	}
 	
+
 	return 0;
+}
+
+void testMyString()
+{
+	XPString s;
+
+	s = '  D';
+
+	cout << s.str() << endl;
+	cout << s.length() << endl;
+	cout << (s == "D") << endl;
+
+	s += " zhang xiao pin";
+
+	cout << s.str() << endl;
+	cout << s.length() << endl;
+	cout << (s == "D zhang xiao pin") << endl;
+
+
+	cout << "-------------------------------\n";
+
+	for (int i = 0; i < s.length(); ++i)
+	{
+		cout << s[i] << endl;
+	}
+
+	cout << "-------------------------------\n";
+	cout << s.startWith("D ") << endl;
+	cout << s.endOf("pin") << endl;
+
+
+	cout << "-------------------------------\n";
+	s.trim().insert(0, "XIAO");
+	cout << s.str() << endl;
+
+}
+
+void testLinkQueue()
+{
+	LinkQueue<int> queue;
+	for (int i = 0; i < 5; ++i)
+	{
+		queue.add(i);
+	}
+
+	while (queue.length() > 0)
+	{
+		cout << queue.front() << endl;
+		queue.remove();
+	}
+
+
+}
+
+void testStaticQueue()
+{
+	StaticQueue<int, 5> queue;
+	for (int i = 0; i < 5; ++i)
+	{
+		queue.add(i);
+	}
+
+	while (queue.length() > 0)
+	{
+		cout << queue.front() << endl;
+		queue.remove();
+	}
+
 }
 
 void testLinkStack()
